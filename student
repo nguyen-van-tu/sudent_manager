@@ -1,0 +1,98 @@
+drop database studen_manager;
+create database studen_manager;
+use studen_manager;
+
+create table address(
+    id int primary key ,
+    name nvarchar(255)
+);
+create table classes(
+    id int primary key ,
+    name nvarchar(255),
+    language nvarchar(255),
+    description nvarchar(255)
+);
+create table student(
+    id int primary key ,
+    name nvarchar(255),
+    address_id int,
+    phone nvarchar(255) unique ,
+    class_id int
+);
+
+create table course(
+    id int primary key ,
+    name nvarchar(255),
+    description nvarchar(255)
+);
+
+create table point(
+    id int primary key ,
+    course_id int,
+    student_id int,
+    point double
+);
+
+alter table student add foreign key (address_id) references address(id);
+alter table student add foreign key (class_id) references classes(id);
+alter table point add foreign key (course_id) references course(id);
+alter table point add foreign key (student_id) references student(id);
+
+insert into address value (1,'Nghệ An');
+insert into address value (2,'Hà Nội');
+insert into address value (3,'Thanh Hóa');
+insert into address value (4,'Hà Nam');
+insert into address value (5,'Hải Dương');
+
+insert into classes value (1,'C0920i1','java','full time');
+insert into classes value (2,'C0920i2','php','full time');
+insert into classes value (3,'C1020i1','java','part time');
+insert into classes value (4,'C1020i2','php','part time');
+insert into classes value (5,'C1120i1','ruby','full time');
+
+insert into student value (1,'Tú',1,'0368919738',1);
+insert into student value (2,'Nam',2,'0367713708',2);
+insert into student value (3,'Hà',1,'0943919755',3);
+insert into student value (4,'Đức',4,'0368979738',4);
+insert into student value (5,'Tùng',5,'0368942437',5);
+insert into student value (6,'Lan',1,'0368972835',2);
+insert into student value (7,'Mạnh',2,'0974873526',3);
+insert into student value (8,'Mai',4,'0987623421',1);
+insert into student value (9,'Đạt',5,'0989824567',4);
+insert into student value (10,'Hưng',3,'0367876528',5);
+
+insert into course value (1,'khóa 1','không');
+insert into course value (2,'khóa 2','không');
+insert into course value (3,'khóa 3','không');
+insert into course value (4,'khóa 4','không');
+insert into course value (5,'khóa 5','không');
+
+insert into point value (1,1,1,7.5);
+insert into point value (2,2,2,6.5);
+insert into point value (3,3,3,7.8);
+insert into point value (4,4,4,7);
+insert into point value (5,5,5,8.5);
+insert into point value (6,1,6,5.5);
+insert into point value (7,2,7,6.5);
+insert into point value (8,3,8,7);
+insert into point value (9,4,9,7.8);
+insert into point value (10,5,10,4);
+insert into point value (11,1,2,7.2);
+insert into point value (12,2,3,8.3);
+insert into point value (13,3,4,9.8);
+insert into point value (14,4,5,6.7);
+insert into point value (15,5,6,7.6);
+
+select c.name , count(c.name)from classes c join student t on c.id = t.class_id group by c.name;
+
+select a.name , count(a.name) from student s join address a on s.address_id = a.id group by a.name;
+
+select name, avg(point) from course c join point on c.id = point.course_id;
+
+select avg(point) from point where point;
+
+ select max(point) from point where point;
+
+select c.name ,avg(p.point) from point p join course c on course_id =c.id group by c.name;
+
+select c.name , max(p.point) from Point p join Course c on course_id =c.id group by c.name ;
